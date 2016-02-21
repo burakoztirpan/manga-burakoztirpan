@@ -1,0 +1,83 @@
+$icon-font-path: "../fonts/";
+
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap";
+
+
+
+//
+
+    .no-padding {
+        padding: 0;
+    }
+
+    .no-margin {
+        margin: 0;
+    }
+
+//
+
+.browsehappy {
+    margin: 0.2em 0;
+    background: #ccc;
+    color: #000;
+    padding: 0.2em 0;
+}
+
+
+    /* Remove the padding we set earlier */
+    .header,
+    .manga-list,.manga-list,.manga-list,.manga-list,.manga-list,
+    .container,.container,.container,.container,.container,.container,
+    .footer {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .logo {
+
+        color: #F78787;
+        text-align: center;
+
+        span {
+            color: #0086b3;
+        }
+
+    }
+
+    .manga-list {
+
+        ul {
+
+            li {
+                list-style: none;
+                padding:6px;
+                margin:0;
+                border-bottom: 1px solid #5298AF;
+                background-color:#0086b3;
+                color: #FFF;
+
+                &:hover {
+                    cursor:pointer;
+                    background-color: #0088c3;
+                    color: #FFF;
+                }
+
+            }
+        }
+    }
+
+    .filter-input {
+
+        .input-group-addon {
+            background-color: #FFF;
+            border: none;
+        }
+
+        input {
+            padding: 6px;
+            width: 100%;
+            border: none;
+        }
+
+    }
+
