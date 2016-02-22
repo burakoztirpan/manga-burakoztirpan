@@ -1,50 +1,49 @@
 var React = require('react'),
-    MangaList = require("./manga-list");
+    MangaList = require("./manga-list"),
+    ListActions = require('../actions/manga-list-actions'),
+    MangaListStore = require('../stores/manga-list-store');
 
 var mangaListApp = React.createClass({
+
     getInitialState: function () {
 
+        //Flex Dispatch without..
         var items = [
             {
-                h: "",
+                h: "0",
                 a: "Loading.."
             }
         ];
 
+        //For Flex architecture
+        ListActions.fetchList();
+
         return {searchKey: "Aramacı", items: items, filteredItems: items};
     },
 
-
     componentDidMount: function () {
+        MangaListStore.addChangeListener(this._onChangeList);
+    },
 
-        var mangaListSource = "https://www.mangaeden.com/api/list/0/?p=0";
-
-        this.serverRequest = $.get(mangaListSource, function (result) {
-            var sortedHit = _.orderBy(result.manga, ['h'], ['desc']);
-
-            this.setState({
-                items: sortedHit,
-                filteredItems: sortedHit
-            });
-        }.bind(this));
+    _onChangeList: function () {
+        this.setState(setListItems());
     },
 
     componentWillUnmount: function () {
-        this.serverRequest.abort();
+        MangaListStore.removeChangeListener(this._onChangeList);
     },
 
-    onChange: function (e) {
+    onSearch: function (e) {
 
         this.setState({searchKey: e.target.value});
         var state = this;
         var value = e.target.value;
 
-        var searchResult = _.filter(state.state.items, function (item) {
-                return _.startsWith(item.a, value);
+        var searchResult = state.state.items.filter(function (item) {
+            return -1 !== item.a.indexOf(value);
         });
 
-        this.setState({filteredItems : searchResult});
-
+        this.setState({filteredItems: searchResult});
 
     },
 
@@ -57,7 +56,7 @@ var mangaListApp = React.createClass({
                            className="form-control"
                            placeholder="Search.."
                            aria-describedby="basic-addon1"
-                           onChange={this.onChange}/>
+                           onChange={this.onSearch}/>
                 </div>
 
                 <div className="col-xs-12 manga-list no-padding"
@@ -68,5 +67,12 @@ var mangaListApp = React.createClass({
         )
     }
 });
+
+function setListItems() {
+    return {
+        items: MangaListStore.getAll(),
+        filteredItems: MangaListStore.getAll()
+    };
+}
 
 module.exports = mangaListApp;

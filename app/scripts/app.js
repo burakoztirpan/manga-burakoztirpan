@@ -9,7 +9,8 @@ var React = window.React = require('react'),
     mountNode = document.getElementById("app"),
     mangaListContent = document.getElementById("manga-list-app"),
     MangaList = require("./ui/manga-list"),
-    MangaListApp = require("./ui/manga-list-app");
+    MangaListApp = require("./ui/manga-list-app"),
+    MangaListStore = require('./stores/manga-list-store');
 
 var TodoList = React.createClass({
   render: function() {
