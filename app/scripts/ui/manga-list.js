@@ -8,7 +8,8 @@ var React = require('react');
 var mangaList = React.createClass({
     render : function() {
         var createItem = function(items, i) {
-            return <li key={i}>{++i}.{items.a} ({items.h} Hits)</li>;
+            var href = '#manga-detail/'+items.i;
+            return <a key={i} href={href}><li>{++i}.{items.t} ({items.h} Hits)</li></a>;
 
         };
         return (

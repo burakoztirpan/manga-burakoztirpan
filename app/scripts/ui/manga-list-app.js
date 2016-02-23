@@ -47,6 +47,11 @@ var mangaListApp = React.createClass({
 
     },
 
+    OnClick : function (e) {
+        value = e.target.value;
+        location.href = location.href = "detail/:{value}"
+    },
+
     render: function () {
         return (
             <div className="content">

@@ -81,3 +81,41 @@ $icon-font-path: "../fonts/";
 
     }
 
+    .manga-detail {
+
+        padding-bottom:60px;
+
+        .manga-name {
+            font-size: 18px;
+            color: orange;
+            border-top: 1px solid #DDD;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .manga-image  {
+
+            padding: 0;
+
+            img {
+                width: 100%;
+            }
+        }
+
+        .manga-desc {
+            font-size: 0.9em;
+            border-bottom: 1px solid #DDD;
+            padding: 15px;
+        }
+
+        .manga-hits, .manga-author {
+            font-size: 0.9em;
+            margin-top :15px;
+        }
+
+        button {
+            margin-top:10px;
+        }
+
+    }
+
