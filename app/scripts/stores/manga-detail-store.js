@@ -8,6 +8,7 @@ var assign = require('object-assign');
 var CHANGE_EVENT = 'change';
 
 var _data = {};
+var _isFavorite = false;
 
 function fetchData() {
 
@@ -24,12 +25,49 @@ function fetchData() {
 
 }
 
+function isAvailbe() {
+    var favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    var itemId = location.hash.split('/')[1];
+    var itemLength = _.filter(favorites, ['id', itemId]).length;
+    return itemLength > 0;
+}
+
+
+function isFavorite() {
+    _isFavorite = isAvailbe();
+    MangaDetailStore.emitChange();
+
+}
+
+function setFavorite(title) {
+    var favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    var item = {
+        name: title,
+        id: location.hash.split('/')[1]
+    };
+
+    if (isAvailbe()) {
+        _.remove(favorites, function (n) {
+            return n.id === item.id;
+        });
+    } else {
+        favorites.push(item);
+    }
+
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+    isFavorite();
+}
+
 var MangaDetailStore = assign({}, EventEmitter.prototype, {
 
     getData: function () {
         if (!!_data) {
             return _data;
         }
+    },
+
+    isFavorite: function () {
+        return _isFavorite;
     },
 
     emitChange: function () {
@@ -52,6 +90,12 @@ AppDispatcher.register(function (action) {
 
         case DetailConstant.DATA_GET:
             fetchData();
+            break;
+        case DetailConstant.SET_FAVORITE:
+            setFavorite(action.title);
+            break;
+        case DetailConstant.IS_FAVORITE:
+            isFavorite();
             break;
 
         default:

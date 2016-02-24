@@ -6,8 +6,9 @@ var mangaDetailApp = React.createClass({
 
     getInitialState: function () {
         DetailActions.fetchData();
+        DetailActions.isFavorite();
 
-        return {data: [1,2,3,4,5]};
+        return {data: [], isFavorite: false, favoriteTitle: 'Add Favorite'};
     },
 
     componentDidMount: function () {
@@ -22,7 +23,12 @@ var mangaDetailApp = React.createClass({
         MangaDetailStore.removeChangeListener(this._onChangeData);
     },
 
+    addFavorite: function() {
+        DetailActions.setFavorite(this.state.data.title);
+    },
+
     render: function () {
+
         return (
             <div className="content">
                 <div className="col-xs-12 manga-detail no-padding"
@@ -48,7 +54,7 @@ var mangaDetailApp = React.createClass({
                             </a>
                         </div>
                         <div className="col-xs-12">
-                            <button className="btn btn-success btn-block">Add Favorite</button>
+                            <button onClick={this.addFavorite} className="btn btn-success btn-block">{this.state.favoriteTitle}</button>
                         </div>
                     </div>
 
@@ -61,7 +67,9 @@ var mangaDetailApp = React.createClass({
 
 function setData() {
     return {
-        data: MangaDetailStore.getData()
+        data: MangaDetailStore.getData(),
+        isFavorite: MangaDetailStore.isFavorite(),
+        favoriteTitle: MangaDetailStore.isFavorite() ? 'Remove Favorite' : 'Add Favorite'
     };
 }
 
