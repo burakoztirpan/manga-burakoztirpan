@@ -100,12 +100,12 @@ gulp.task('images', function() {
 
 // Fonts
 gulp.task('fonts', function() {
-    
+
     return gulp.src(require('main-bower-files')({
             filter: '**/*.{eot,svg,ttf,woff,woff2}'
         }).concat('app/fonts/**/*'))
         .pipe(gulp.dest('dist/fonts'));
-    
+
 });
 
 // Clean
@@ -135,7 +135,7 @@ gulp.task('buildBundle', ['styles', 'buildScripts', 'moveLibraries', 'bower'], f
 gulp.task('moveLibraries',['clean'], function(){
   // the base option sets the relative root for the set of files,
   // preserving the folder structure
-  gulp.src(['./app/scripts/**/*.js'], { base: './app/scripts/' })
+  gulp.src(['./app/scripts/*.js'], { base: './app/scripts/' })
   .pipe(gulp.dest('dist/scripts'));
 });
 
@@ -184,7 +184,7 @@ gulp.task('watch', ['html', 'fonts', 'bundle'], function() {
 
     gulp.watch(['app/styles/**/*.scss', 'app/styles/**/*.css'], ['styles', 'scripts', reload]);
 
-    
+
 
     // Watch image files
     gulp.watch('app/images/**/*', reload);

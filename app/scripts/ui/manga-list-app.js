@@ -16,12 +16,11 @@ var mangaListApp = React.createClass({
         ];
 
         //For Flex architecture
-        ListActions.fetchList();
-
         return {searchKey: "Aramacı", items: items, filteredItems: items};
     },
 
     componentDidMount: function () {
+
         MangaListStore.addChangeListener(this._onChangeList);
     },
 
@@ -40,34 +39,42 @@ var mangaListApp = React.createClass({
         var value = e.target.value;
 
         var searchResult = state.state.items.filter(function (item) {
-            return -1 !== item.a.indexOf(value);
+            return -1 !== item.t.indexOf(value);
         });
 
         this.setState({filteredItems: searchResult});
 
     },
 
-    OnClick : function (e) {
+    OnClick: function (e) {
         value = e.target.value;
         location.href = location.href = "detail/:{value}"
     },
 
     render: function () {
+
         return (
             <div className="content">
 
-                <div className="col-xs-12 filter-input no-padding">
-                    <input type="text"
-                           className="form-control"
-                           placeholder="Search.."
-                           aria-describedby="basic-addon1"
-                           onChange={this.onSearch}/>
+                { !!this.state.filteredItems.length &&
+                <div>
+                    <div className="col-xs-12 filter-input no-padding">
+                        <input type="text"
+                               className="form-control"
+                               placeholder="Search.."
+                               aria-describedby="basic-addon1"
+                               onChange={this.onSearch}/>
+                    </div>
+                    <div className="col-xs-12 manga-list no-padding"
+                         id="manga-list">
+                        <span><MangaList items={this.state.filteredItems} value={this.state.searchKey}/></span>
+                    </div>
                 </div>
+                }
+                { !this.state.filteredItems.length &&
+                    <div className="no-data">You do not have any favorite yet :(</div>
 
-                <div className="col-xs-12 manga-list no-padding"
-                     id="manga-list">
-                    <span><MangaList items={this.state.filteredItems} value={this.state.searchKey}/></span>
-                </div>
+                }
             </div>
         )
     }
@@ -76,7 +83,7 @@ var mangaListApp = React.createClass({
 function setListItems() {
     return {
         items: MangaListStore.getAll(),
-        filteredItems: MangaListStore.getAll()
+        filteredItems: MangaListStore.getAll() || []
     };
 }
 

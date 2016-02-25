@@ -28,7 +28,7 @@ function fetchData() {
 function isAvailbe() {
     var favorites = JSON.parse(localStorage.getItem('favorites')) || [];
     var itemId = location.hash.split('/')[1];
-    var itemLength = _.filter(favorites, ['id', itemId]).length;
+    var itemLength = _.filter(favorites, ['i', itemId]).length;
     return itemLength > 0;
 }
 
@@ -42,13 +42,13 @@ function isFavorite() {
 function setFavorite(title) {
     var favorites = JSON.parse(localStorage.getItem('favorites')) || [];
     var item = {
-        name: title,
-        id: location.hash.split('/')[1]
+        t: title,
+        i: location.hash.split('/')[1]
     };
 
     if (isAvailbe()) {
         _.remove(favorites, function (n) {
-            return n.id === item.id;
+            return n.i === item.i;
         });
     } else {
         favorites.push(item);

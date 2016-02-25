@@ -11,9 +11,11 @@ var React = window.React = require('react'),
     MangaList = require("./ui/manga-list"),
     MangaListApp = require("./ui/manga-list-app"),
     MangaListStore = require('./stores/manga-list-store'),
-    MangaDetailApp = require('./ui/manga-detail-app');
+    MangaDetailApp = require('./ui/manga-detail-app'),
+    ListActions = require('./actions/manga-list-actions');
 
-var App = React.createClass({
+var App;
+App = React.createClass({
     getInitialState: function () {
         return {
             route: window.location.hash.substr(1)
@@ -26,15 +28,24 @@ var App = React.createClass({
 
         function addListenerMulti(el, s, fn) {
             var evts = s.split(' ');
-            for (var i=0, iLen=evts.length; i<iLen; i++) {
+            for (var i = 0, iLen = evts.length; i < iLen; i++) {
                 el.addEventListener(evts[i], fn, false);
             }
         }
 
-        addListenerMulti(window, 'hashchange load', function(){
+        addListenerMulti(window, 'hashchange load', function () {
+
+            var location = window.location.hash.split('/')[0];
+
             thisState.setState({
-                route: window.location.hash.split('/')[0]
-            })
+                route: location
+            });
+
+            if (location === '#favorites' || _.isEmpty(location)) {
+                ListActions.fetchList();
+            }
+
+
         });
     },
 
@@ -47,6 +58,9 @@ var App = React.createClass({
                 break;
             case '#manga-detail':
                 Child = MangaDetailApp;
+                break;
+            case '#favorites':
+                Child = MangaListApp;
                 break;
             default:
                 Child = MangaListApp; //404

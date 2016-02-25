@@ -4,17 +4,25 @@ var ListConstant = require('../constants/list-constant');
 var assign = require('object-assign');
 var CHANGE_EVENT = 'change';
 
-var _list = {};
+var _list = [];
 
 function fetchList() {
-    var mangaListSource = "https://www.mangaeden.com/api/list/0/?p=0";
 
-    $.get(mangaListSource, function (result) {
-        return result.manga;
-    }).then(function (data) {
-        _list = _.orderBy(data.manga, ['h'], ['desc']);
+    var isFavoritesPage = location.hash == '#favorites';
+    if (isFavoritesPage) {
+        _list = JSON.parse(localStorage.getItem('favorites')) || [];
+        console.log(_list.length);
         MangaListStore.emitChange();
-    });
+    } else {
+        var mangaListSource = "https://www.mangaeden.com/api/list/0/";
+
+        $.get(mangaListSource, function (result) {
+            return result.manga;
+        }).then(function (data) {
+            _list = _.orderBy(data.manga, ['h'], ['desc']);
+            MangaListStore.emitChange();
+        });
+    }
 
 }
 

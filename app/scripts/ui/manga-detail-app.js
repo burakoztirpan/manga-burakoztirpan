@@ -49,7 +49,7 @@ var mangaDetailApp = React.createClass({
                         <div className="manga-author col-xs-8">Author: {this.state.data.author}</div>
 
                         <div className="col-xs-12">
-                            <a href="/">
+                            <a href="#">
                                 <button className="btn btn-primary btn-block">Back</button>
                             </a>
                         </div>
